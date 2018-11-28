@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>中国象棋</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static "style/" %}index.css">
+    <link rel="stylesheet" href="{% static "style/" %}Normalize.css"/>
+    <script src="{% static "javascript/" %}jquery-3.3.1.min.js" type="text/javascript"></script>
+    <script>
+        $(document).ready(function () {
+            function refresh() {
+                $.getJSON("{% url 'chessUrl:game' %}hall/", function (ret) {
+                    $('.hallCount').text(ret.count);
+                })
+            }
+
+            setInterval(refresh, 3000)
+        })
+    </script>
+</head>
+<body onload="onload()">
+    <div class="w">
+        <div class="h">
+            <div class="right w fl">
+                <div class="right_t">
+                    <p>炮二平五，馬 2 进 3</p>
+                </div>
+                <div class="right_c">
+                    <div class="enemyTime">
+                        <div class="jushi">对方局时:
+                            <span class="time">123</span>
+                        </div>
+                        <div class="bushi">对方步时:
+                            <span class="time">456</span>
+                        </div>
+
+                    </div>
+                    <div class="myTime">
+                        <div class="jushi">己方局时:
+                            <span class="time">456</span>
+                        </div>
+                        <div class="bushi">己方步时:
+                            <span class="time">456</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="right_b">
+                    <button type="">悔棋(3)</button>
+                    <button type="">求和</button>
+                    <button type="">认输</button>
+                </div>
+            </div>
+            <div class="qipan fl">
+                <div id="qipan" class="qipan2">
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                    <div id="qizi"></div>
+                </div>
+            </div>
+            <div class="left fr Bor">
+                <div class="left_t">
+                    <div class="user" style="display: block;">
+                        <div class="bg"></div>
+                        <div class="username">{{ chess.username }}</div>
+                        <div class="e-mail">{{ chess.account }}</div>
+                        <div class="level">
+                            <span>目前段位：</span>
+                            <span>特级大师</span>
+                        </div>
+                        <div class="zhanji">
+                            <span>胜：</span>
+                            <span>{{ chess.win }}</span>
+                            <span>平：</span>
+                            <span>{{ chess.balance }}</span>
+                            <span>负：</span>
+                            <span>{{ chess.lose }}</span>
+                        </div>
+                        <div class="formarPlayer">
+                            <p>历史对战玩家：</p>
+                            <div class="Player">
+                                <a href="#" title="
+name：Jover
+战绩：0/0/0
+积分：0">
+                                    <div class="name">Jover</div>
+                                    <div class="point">0</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="left_b">
+                    <dl>
+                        <dt><h4>大厅人数(<span class="hallCount">0</span>)</h4></dt>
+                        <dd>
+                            <div class="Player">
+                                <a href="#" title="
+name：Jover
+战绩：0/0/0
+积分：0">
+                                    <div class="name">Jover</div>
+                                    <div class="point">0</div>
+                                </a>
+                            </div>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="timeSet w">
+        <h2>时&nbsp;&nbsp;见&nbsp;&nbsp;设&nbsp;&nbsp;置</h2>
+        <div class="My_GameTime">己&nbsp;方&nbsp;局 时：</div>
+        <input type="text" value="30"/>：
+        <input type="text" value="00"/><br/>
+        <div class="My_PartTime">己&nbsp;方&nbsp;步 时：</div>
+        <input type="text" value="2"/>：
+        <input type="text" value="00"/><br/>
+        <div class="Other_GameTime">对&nbsp;方&nbsp;局 时：</div>
+        <input type="text" value="30"/>：
+        <input type="text" value="00"/><br/>
+        <div class="Other_PartTime">对&nbsp;方&nbsp;步 时：</div>
+        <input type="text" value="2"/>：
+        <input type="text" value="00"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="">确定</button>
+        <button type="">拒绝</button>
+    </div>
+    <script src="{% static "javascript/" %}main.js" type="text/javascript"></script>
+    <script src="{% static "javascript/" %}move.js" type="text/javascript"></script>
+</body>
+</html>
