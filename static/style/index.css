@@ -174,7 +174,7 @@ p {
 }
 
 .left_t {
-    height: 50%;
+    height: 33%;
     padding: 10px;
     position: relative;
     border-bottom: 3px solid #d0a636;
@@ -318,21 +318,24 @@ p {
     margin-top: 5px;
 }
 
-.left_b {
-    height: 45%;
+.left_c {
+    height: 32%;
+    background-color: #fbce8a;
 }
 
-.left_b dt h4 {
+.left_c .jushi, .left_c .bushi {
+    height: 60px;
+    line-height: 60px;
+}
+.left_c .key {
+    position: relative;
+    
     text-align: center;
-    margin: 0 auto;
 }
-
-.left_b dd {
-    height: 385px;
-    margin: 0 auto;
-    overflow-y: scroll;
+.left_b {
+    height: 32.5%;
+    position: relative;
 }
-
 .left_b .Player {
     width: 171px;
     height: 25px;
@@ -340,27 +343,7 @@ p {
     position: relative;
 }
 
-.left_b dd a {
-    color: black;
-}
-
-.left_b dd .name {
-    width: 96%;
-    position: absolute;
-    top: 0;
-    left: 10px;
-    line-height: 25px;
-    font-family: 微软雅黑B;
-}
-
-.left_b dd .point {
-    position: absolute;
-    top: 0;
-    right: 0px;
-    line-height: 25px;
-}
-
-.right {
+.right{
     width: 200px;
     height: 884px;
     border: 3px solid #d0a636;
@@ -373,27 +356,41 @@ p {
     overflow: auto;
     background-color: white;
 }
-
 .right_t p {
     margin-top: 10px;
     margin-left: 10px;
 }
-
-.right_c {
-    height: 280px;
-    background-color: #fbce8a;
+.right_b .WatchPlayer h4{
+    text-align: center;
+    margin: 0 auto;
 }
-
-.right_c .jushi, .right_c .bushi {
-    height: 70px;
-    line-height: 70px;
+.right_b .huatiao{
+    height: 304px;
+    overflow-y:scroll;
 }
-
-.right_b {
-    height: 50px;
-    line-height: 50px;
+.right_b .Player{
+    width: 171px;
+    height: 25px;
+    margin-top: 10px;
+    position: relative;
 }
-
+.right_b a{
+    color: black;
+}
+.right_b .name{
+    width:96%;
+    position: absolute;
+    top: 0;
+    left:10px;
+    line-height: 25px;
+    font-family: 微软雅黑B;
+}
+.right_b .point{
+    position: absolute;
+    top: 0;
+    right: 0px;
+    line-height: 25px;
+}
 .qipan {
     width: 810px;
     height: 890px;

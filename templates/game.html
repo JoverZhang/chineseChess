@@ -4,6 +4,8 @@
     <meta charset="UTF-8"/>
     <title>中国象棋</title>
     {% load static %}
+    <link rel="stylesheet" type="text/css" href="../static/style/Normalize.css" />
+    <link rel="stylesheet" type="text/css" href="../static/style/index.css" />
     <link rel="stylesheet" href="{% static "style/" %}index.css">
     <link rel="stylesheet" href="{% static "style/" %}Normalize.css"/>
     <script src="{% static "javascript/" %}jquery-3.3.1.min.js" type="text/javascript"></script>
@@ -44,30 +46,31 @@
                 <div class="right_t">
                     <p>炮二平五，馬 2 进 3</p>
                 </div>
-                <div class="right_c">
-                    <div class="enemyTime">
-                        <div class="jushi">对方局时:
-                            <span class="time">123</span>
+                 <div class="right_b">
+                    <div class="WatchPlayer">
+                        <h4>观看人数(xx)</h4>
+                        <div class="huatiao">
+                            <div class="Player">
+                                <a href="#" title="
+name：Jover
+战绩：0/0/0
+积分：0">
+                                    <div class="name">Jover</div>
+                                    <div class="point">0</div>
+                                </a>
+                            </div>
+                             <div class="Player">
+                                <a href="#" title="
+name：Jover
+战绩：0/0/0
+积分：0">
+                                    <div class="name">Jover</div>
+                                    <div class="point">0</div>
+                                </a>
+                            </div>
                         </div>
-                        <div class="bushi">对方步时:
-                            <span class="time">456</span>
-                        </div>
-
                     </div>
-                    <div class="myTime">
-                        <div class="jushi">己方局时:
-                            <span class="time">456</span>
-                        </div>
-                        <div class="bushi">己方步时:
-                            <span class="time">456</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="right_b">
-                    <button type="">悔棋(3)</button>
-                    <button type="">求和</button>
-                    <button type="">认输</button>
-                </div>
+                 </div>
             </div>
             <div class="qipan fl">
                 <div id="qipan" class="qipan2">
@@ -190,35 +193,50 @@
                             <span>负：</span>
                             <span>{{ chess.lose }}</span>
                         </div>
-                        <div class="formarPlayer">
-                            <p>历史对战玩家：</p>
-                            <div class="Player">
-                                <a href="#" title="
-name：Jover
-战绩：0/0/0
-积分：0">
-                                    <div class="name">Jover</div>
-                                    <div class="point">0</div>
-                                </a>
-                            </div>
+                    </div>
+                </div>
+                <div class="left_c">
+                    <div class="enemyTime">
+                        <div class="jushi">对方局时:
+                            <span class="time">123</span>
                         </div>
+                        <div class="bushi">对方步时:
+                            <span class="time">456</span>
+                        </div>
+                    </div>
+                    <div class="myTime">
+                        <div class="jushi">己方局时:
+                            <span class="time">456</span>
+                        </div>
+                        <div class="bushi">己方步时:
+                            <span class="time">456</span>
+                        </div>
+                    </div> 
+                    <div class="key">
+                        <button type="" style="display: none">悔棋(3)</button>
+                        <button type="" style="display: none">求和</button>
+                        <button type="" style="display: none">认输</button>
+                        <button style="width: 50%;position: absolute;top: 0;left:50px;display: block">准备</button>
                     </div>
                 </div>
                 <div class="left_b">
-                    <dl>
-                        <dt><h4>大厅人数(<span class="hallCount">0</span>)</h4></dt>
-                        <dd class="hallPlayer">
-                            {#                            <div class="Player>#}
-                            {#                                <a href="#" title="#}
-                            {#name：Jover#}
-                            {#战绩：0/0/0#}
-                            {#积分：0">#}
-                            {#                                    <div class="name">Jover</div>#}
-                            {#                                    <div class="point">0</div>#}
-                            {#                                </a>#}
-                            {#                            </div>#}
-                        </dd>
-                    </dl>
+                    <div class="user" style="display: block;">
+                        <div class="bg"></div>
+                        <div class="username">{{ chess.username }}</div>
+                        <div class="e-mail">{{ chess.account }}</div>
+                        <div class="level">
+                            <span>目前段位：</span>
+                            <span>特级大师</span>
+                        </div>
+                        <div class="zhanji">
+                            <span>胜：</span>
+                            <span>{{ chess.win }}</span>
+                            <span>平：</span>
+                            <span>{{ chess.balance }}</span>
+                            <span>负：</span>
+                            <span>{{ chess.lose }}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
