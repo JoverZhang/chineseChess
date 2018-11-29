@@ -275,7 +275,7 @@ p {
     position: absolute;
     top: 0;
     left: 10px;
-    display: none;
+    /*display: none;*/
 }
 
 .user .bg {

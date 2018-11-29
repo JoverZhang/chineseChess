@@ -3,64 +3,125 @@
 <head>
     <meta charset="UTF-8"/>
     <title>中国象棋游戏厅</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static "style/" %}index.css">
+    <link rel="stylesheet" href="{% static "style/" %}Normalize.css"/>
+    <script src="{% static "javascript/" %}jquery-3.3.1.min.js" type="text/javascript"></script>
+    <script>
+        $(document).ready(function () {
+            refresh();
+
+            function refresh() {
+                $.getJSON("{% url 'chessUrl:index' %}realTimeIndex/", function (rec) {
+                    // hallCount
+                    $('.hallCount').text(rec.online_count);
+                    // hallpeople
+                    $('.hallPlayer').html('');
+                    for (var i = 0, item = rec.online_list, len = rec.online_list.length; i < len; i++) {
+                        $('.hallPlayer').append(
+                            '<div class="Player">'
+                            + '\n<a class="hallItem" href="#" title="'
+                            + '\nname：' + item[i]['username']
+                            + '\n战绩：' + item[i]['win'] + '/' + item[i]['balance'] + '/' + item[i]['lose'] + ''
+                            + '\n积分：' + item[i]['point'] + '">'
+                            + '\n<div class="name hallName">' + item[i]['username'] + '</div>'
+                            + '\n<div class="point">' + item[i]['point'] + '</div>'
+                            + '\n</a>'
+                            + '</div>'
+                        )
+                    }
+                    // rank
+                    $('.rankList').html('');
+                    for (var i = 0, item = rec.rank_list, len = rec.rank_list.length; i < len; i++) {
+                        $('.rankList').append(
+                            '<div class="Ranking">\n' +
+                            '<a href="#" title="\n' +
+                            'name：' + item[i]['username'] + '\n' +
+                            '战绩：' + item[i]['win'] + '/' + item[i]['balance'] + '/' + item[i]['lose'] + '\n' +
+                            '积分：' + item[i]['point'] + '">\n' +
+                            '<h2 class="Placing">' + (i + 1) + '</h2>\n' +
+                            '<div class="N_A_R">\n' +
+                            '<div class="Name">' + item[i]['username'] + '</div>\n' +
+                            '<br>\n' +
+                            '<div class="Record">' + item[i]['win'] + '/' + item[i]['balance'] + '/' + item[i]['lose'] + '</div>\n' +
+                            '</div>\n' +
+                            '<div class="point">' + item[i]['point'] + '</div>\n' +
+                            '</a>\n' +
+                            '</div>'
+                        )
+                    }
+
+                    //table
+                    $('.center_r_w').html('');
+                    for (var i = 0, item = rec.table_list, len = rec.table_list.length; i < len; i++) {
+                        $('.center_r_w').append(
+                            '<div class="Play1" onclick="joinBlack{{ i }}"></div>\n' +
+                            '<div class="qiPan" onclick="audience{{ i }}"></div>\n' +
+                            '<div class="Play2" onclick="joinRed{{ i }}"></div>'
+                        )
+                    }
+
+                })
+            }
+
+            setInterval(refresh, 3000)
+        })
+    </script>
 </head>
-{% load static %}
-<link rel="stylesheet" href="{% static "style/" %}index.css">
-<link rel="stylesheet" href="{% static "style/" %}Normalize.css"/>
 <body>
     <div class="w">
         <div class="left fr Bor">
             <div class="left_t">
-                <div class="login-t">
-                    <p class="W-Speech">
-                        Hi~欢迎来到象棋大厅!</p><br/>
-                    <span>用户名：</span><input type="text" placeholder="用户名"/><br/>
-                    <span>密 &nbsp;&nbsp;&nbsp;码：</span><input type="password" placeholder="密码"/><br>
-                    <a href="#" class="Login">登陆</a>
-                    <a href="#" class="Register">注册</a>
-                    <a href="#" class="user-info">
-                    </a>
-                </div>
-                <div class="user">
-                    <div class="bg"></div>
-                    <div class="username">Jason</div>
-                    <div class="e-mail">XXXX@XX.com</div>
-                    <div class="level">
-                        <span>目前段位：</span>
-                        <span>特级大师</span>
+                {% if request.session.username is None %}
+                    {#login#}
+                    <form class="login-t" action="{% url 'chessUrl:index' %}login/" method="post">
+                        <p class="W-Speech">
+                            Hi~欢迎来到象棋大厅!</p><br/>
+                        {% csrf_token %}
+                        <span>用户名：</span><input type="text" placeholder="用户名" name="username"/><br/>
+                        <span>密 &nbsp;&nbsp;&nbsp;码：</span><input type="password" placeholder="密码" name="password"/><br>
+                        {#                    <a href="#" class="Login">登陆</a>#}
+                        <input type="submit" class="login" value="登录"/>
+                        {#                    <a href="#" class="Register">注册</a>#}
+                        <input type="button" class="login" value="注册"/>
+                        <a href="#" class="user-info">
+                        </a>
+                    </form>
+                {% else %}
+                    {#success#}
+                    <div class="user">
+                        <div class="bg"></div>
+                        <div class="username">{{ userInfo.0.username }}</div>
+                        <div class="e-mail">{{ userInfo.0.account }}</div>
+                        <div class="level">
+                            <span>目前段位：</span>
+                            <span>特级大师</span>
+                        </div>
+                        <div class="zhanji">
+                            <span>胜：</span>
+                            <span>{{ userInfo.0.win }}</span>
+                            <span>平：</span>
+                            <span>{{ userInfo.0.balance }}</span>
+                            <span>负：</span>
+                            <span>{{ userInfo.0.lose }}</span>
+                        </div>
+                        <div class="formarPlayer">
+                            <p>历史对战玩家：</p>
+                            {% if not history.0 %}
+                                <p>暂无对战记录</p>
+                            {% else %}
+                                {% for i in history %}
+                                    <p>{{ i }}</p>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
                     </div>
-                    <div class="zhanji">
-                        <span>胜：</span>
-                        <span>xx</span>
-                        <span>平：</span>
-                        <span>xx</span>
-                        <span>负：</span>
-                        <span>xx</span>
-                    </div>
-                    <div class="formarPlayer">
-                        <p>历史对战玩家：</p>
-                        <p>xxxx</p>
-                        <p>xxxx</p>
-                        <p>xxxx</p>
-                        <p>xxxx</p>
-                        <p>xxxx</p>
-                        <p>xxxx</p>
-                    </div>
-                </div>
+                {% endif %}
             </div>
             <div class="left_b">
                 <dl>
-                    <dt><h4>大厅人数(xx人)</h4></dt>
-                    <dd>
-                        <div class="Player">
-                            <a href="#" title="
-name：Jover
-战绩：0/0/0
-积分：0">
-                                <div class="name">Jover</div>
-                                <div class="point">0</div>
-                            </a>
-                        </div>
+                    <dt><h4>大厅人数(<span class="hallCount">0</span>)</h4></dt>
+                    <dd class="hallPlayer">
                     </dd>
                 </dl>
             </div>
@@ -71,179 +132,21 @@ name：Jover
                     <dt>
                         <h1>金 榜 题 名</h1>
                     </dt>
-                    <dd>
-                        <div class="Ranking">
-                            <a href="#" title="
-name：Jason
-战绩：0/0/0
-积分：9999">
-
-                                <h2 class="Placing">①</h2>
-                                <div class="N_A_R">
-                                    <div class="Name">Jason</div>
-                                    <br>
-                                    <div class="Record">0/0/0</div>
-                                </div>
-                                <div class="point">9999</div>
-                            </a>
-                        </div>
-                        <div class="Ranking">
-                            <a href="#" title="
-name：Jason
-战绩：0/0/0
-积分：9999">
-
-                                <h2 class="Placing">①</h2>
-                                <div class="N_A_R">
-                                    <div class="Name">Jason</div>
-                                    <br>
-                                    <div class="Record">0/0/0</div>
-                                </div>
-                                <div class="point">9999</div>
-                            </a>
-                        </div>
-                        <div class="Ranking">
-                            <a href="#" title="
-name：Jason
-战绩：0/0/0
-积分：9999">
-
-                                <h2 class="Placing">①</h2>
-                                <div class="N_A_R">
-                                    <div class="Name">我的天我的天我的天我的天</div>
-                                    <br>
-                                    <div class="Record">0/0/0</div>
-                                </div>
-                                <div class="point">9999</div>
-                            </a>
-                        </div>
-                        <div class="Ranking">
-                            <a href="#" title="
-name：Jason
-战绩：0/0/0
-积分：9999">
-
-                                <h2 class="Placing">①</h2>
-                                <div class="N_A_R">
-                                    <div class="Name">Jason</div>
-                                    <br>
-                                    <div class="Record">0/0/0</div>
-                                </div>
-                                <div class="point">9999</div>
-                            </a>
-                        </div>
+                    <dd class="rankList">
                     </dd>
                 </dl>
             </div>
             <div class="center_r fr">
                 <p class="xzm">班级：计应172，小组名：改了又改，学号：2017060502215、2017060502218、2017060502239，姓名：李俊杰、李燕威、张嘉骏</p>
                 <div class="center_r_w">
-                    <div class="zuozi">
-                        <div class="Play1"></div>
-                        <div class="qiPan"></div>
-                        <div class="Play2"></div>
-                    </div>
-                    <div class="zuozi">
-                        <div class="Play1"></div>
-                        <div class="qiPan"></div>
-                        <div class="Play2"></div>
-                    </div>
-                    <div class="zuozi">
-                        <div class="Play1"></div>
-                        <div class="qiPan"></div>
-                        <div class="Play2"></div>
-                    </div>
-                    <div class="zuozi">
-                        <div class="Play1"></div>
-                        <div class="qiPan"></div>
-                        <div class="Play2"></div>
-                    </div>
-                    <div class="zuozi">
-                        <div class="Play1"></div>
-                        <div class="qiPan"></div>
-                        <div class="Play2"></div>
-                    </div>
-                </div>
-                <div class="center_r_w">
-                    <div class="zuozi">
-                        <div class="Play1"></div>
-                        <div class="qiPan"></div>
-                        <div class="Play2"></div>
-                    </div>
-                    <div class="zuozi">
-                        <div class="Play1"></div>
-                        <div class="qiPan"></div>
-                        <div class="Play2"></div>
-                    </div>
-                    <div class="zuozi">
-                        <div class="Play1"></div>
-                        <div class="qiPan"></div>
-                        <div class="Play2"></div>
-                    </div>
-                    <div class="zuozi">
-                        <div class="Play1"></div>
-                        <div class="qiPan"></div>
-                        <div class="Play2"></div>
-                    </div>
-                    <div class="zuozi">
-                        <div class="Play1"></div>
-                        <div class="qiPan"></div>
-                        <div class="Play2"></div>
-                    </div>
-                </div>
-                <div class="center_r_w">
-                    <div class="zuozi">
-                        <div class="Play1"></div>
-                        <div class="qiPan"></div>
-                        <div class="Play2"></div>
-                    </div>
-                    <div class="zuozi">
-                        <div class="Play1"></div>
-                        <div class="qiPan"></div>
-                        <div class="Play2"></div>
-                    </div>
-                    <div class="zuozi">
-                        <div class="Play1"></div>
-                        <div class="qiPan"></div>
-                        <div class="Play2"></div>
-                    </div>
-                    <div class="zuozi">
-                        <div class="Play1"></div>
-                        <div class="qiPan"></div>
-                        <div class="Play2"></div>
-                    </div>
-                    <div class="zuozi">
-                        <div class="Play1"></div>
-                        <div class="qiPan"></div>
-                        <div class="Play2"></div>
-                    </div>
-                </div>
-                <div class="center_r_w">
-                    <div class="zuozi">
-                        <div class="Play1"></div>
-                        <div class="qiPan"></div>
-                        <div class="Play2"></div>
-                    </div>
-                    <div class="zuozi">
-                        <div class="Play1"></div>
-                        <div class="qiPan"></div>
-                        <div class="Play2"></div>
-                    </div>
-                    <div class="zuozi">
-                        <div class="Play1"></div>
-                        <div class="qiPan"></div>
-                        <div class="Play2"></div>
-                    </div>
-                    <div class="zuozi">
-                        <div class="Play1"></div>
-                        <div class="qiPan"></div>
-                        <div class="Play2"></div>
-                    </div>
-                    <div class="zuozi">
-                        <div class="Play1"></div>
-                        <div class="qiPan"></div>
-                        <div class="Play2"></div>
-                    </div>
+                    {#                    {% load filter %}#}
+                    {#                    {% for i in 5|list %}#}
+                    {#                        <div class="zuozi">#}
+                    {#                            <div class="Play1" onclick="joinBlack{{ i }}"></div>#}
+                    {#                            <div class="qiPan" onclick="audience{{ i }}"></div>#}
+                    {#                            <div class="Play2" onclick="joinRed{{ i }}"></div>#}
+                    {#                        </div>#}
+                    {#                    {% endfor %}#}
                 </div>
             </div>
         </div>

@@ -5,7 +5,11 @@ from . import views
 app_name = 'chessUrl'
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('game/', views.game, name='game'),
-    path('game/hall/', views.hall, name='hall')
+    path('', views.ChessView.index, name='index'),
+    path('realTimeIndex/', views.ChessView.realTimeIndex, name='realTimeIndex'),
+    path('game/', views.ChessView.game, name='game'),
+    path('game/realTimeGame/', views.ChessView.realTimeGame,
+         name='realTimeGame'),
+    path('login/', views.ChessView.login, name='login'),
+    path('logout', views.ChessView.logout, name='logout'),
 ]

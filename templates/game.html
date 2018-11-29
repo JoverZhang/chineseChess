@@ -12,25 +12,24 @@
             refresh();
 
             function refresh() {
-                $.getJSON("{% url 'chessUrl:game' %}hall/", function (rec) {
-                    //hallCount
-                    $('.hallCount').text(rec.count);
-                    //hallpeople
+                $.getJSON("{% url 'chessUrl:index' %}realTimeIndex/", function (rec) {
+                    // hallCount
+                    $('.hallCount').text(rec.online_count);
+                    // hallpeople
                     $('.hallPlayer').html('');
-                    for (var i = 0, len = rec.inline.length; i < len; i++) {
+                    for (var i = 0, item = rec.online_list, len = rec.online_list.length; i < len; i++) {
                         $('.hallPlayer').append(
                             '<div class="Player">'
                             + '\n<a class="hallItem" href="#" title="'
-                            + '\nname：' + rec.inline[i]
-                            + '\n战绩：0/0/0'
-                            + '\n积分：0">'
-                            + '\n<div class="name hallName">' + rec.inline[i] + '</div>'
-                            + '\n<div class="point">0</div>'
+                            + '\nname：' + item[i]['username']
+                            + '\n战绩：' + item[i]['win'] + '/' + item[i]['balance'] + '/' + item[i]['lose'] + ''
+                            + '\n积分：' + item[i]['point'] + '">'
+                            + '\n<div class="name hallName">' + item[i]['username'] + '</div>'
+                            + '\n<div class="point">' + item[i]['point'] + '</div>'
                             + '\n</a>'
                             + '</div>'
                         )
                     }
-                    {#$('.hallName').html(rec.inline[0]);#}
                 })
             }
 
