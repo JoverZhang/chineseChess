@@ -8,11 +8,28 @@
     <link rel="stylesheet" href="{% static "style/" %}Normalize.css"/>
     <script src="{% static "javascript/" %}jquery-3.3.1.min.js" type="text/javascript"></script>
     <script>
+        key = 0;
+        value = 'wait';
+        down = 0;
         $(document).ready(function () {
+            $("body").on('click', '.startGame', function () {
+                value = 'start';
+                console.log(value);
+            });
+
+            //filter
+            var local = window.location.href;
+            for (var i = 0, len = local.length; i < len; i++) {
+                if (local[local.length - 1] !== '/')
+                    local = local.substr(0, local.length - 1);
+            }
+            var who = parseInt(local[local.length - 2]);
+            console.log(who);
             refresh();
 
+
             function refresh() {
-                $.getJSON("{% url 'chessUrl:index' %}realTimeIndex/", function (rec) {
+                $.getJSON(local + 'realTimeGame/' + key + '/' + value, function (rec) {
                     // hallCount
                     $('.hallCount').text(rec.online_count);
                     // hallpeople
@@ -29,6 +46,30 @@
                             + '\n</a>'
                             + '</div>'
                         )
+                    }
+
+                    if (rec.key === 1 && key === 0) {
+                        console.log('init')
+                        key = rec.key;
+                        init();
+                        map = rec.value;
+                        initQiziOnclick(down);
+                        rendering();
+                    }
+                    console.log('down:', down);
+                    console.log('value', rec.value);
+                    console.log('key: ', key);
+                    if (rec.key >= 1) {
+                        if (rec.key > key) {
+                            map = rec.value;
+                            key += 1;
+                        }
+                        if (rec.down === who) {
+                            down = who;
+                        }
+                        console.log('initOnclick')
+                        initQiziOnclick(down);
+                        value = map;
                     }
                 })
             }
@@ -67,109 +108,115 @@
                     <button type="">悔棋(3)</button>
                     <button type="">求和</button>
                     <button type="">认输</button>
+                    <br>
+                    <a class="startGame"
+                       style="cursor: pointer; color:coral; font-size: 20px; border: 2px solid black;">开始</a>
                 </div>
             </div>
             <div class="qipan fl">
                 <div id="qipan" class="qipan2">
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
-                    <div id="qizi"></div>
+                    {% load filter %}
+                    {% for i in 90|list %}
+                        <div id="qizi"></div>
+                    {% endfor %}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {##}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {##}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {##}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {##}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {##}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {##}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {##}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {##}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {##}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
+                    {#                    <div id="qizi"></div>#}
                 </div>
             </div>
             <div class="left fr Bor">

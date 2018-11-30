@@ -6,9 +6,17 @@
     {% load static %}
     <link rel="stylesheet" href="{% static "style/" %}index.css">
     <link rel="stylesheet" href="{% static "style/" %}Normalize.css"/>
+    <link rel="stylesheet" href="{% static "style/" %}jover.css"/>
     <script src="{% static "javascript/" %}jquery-3.3.1.min.js" type="text/javascript"></script>
+    <script src="{% static "javascript/" %}control.js" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
+            $(".center_r").on('click', '.tableq', function (event) {
+                var player = $(this).attr('key')
+                var table = $(this).attr('value')
+                console.log(player, table);
+                window.location.href = "{% url 'chessUrl:index' %}game" + table + "/" + player;
+            });
             refresh();
 
             function refresh() {
@@ -50,17 +58,26 @@
                             '</div>'
                         )
                     }
-
                     //table
                     $('.center_r_w').html('');
                     for (var i = 0, item = rec.table_list, len = rec.table_list.length; i < len; i++) {
                         $('.center_r_w').append(
-                            '<div class="Play1" onclick="joinBlack{{ i }}"></div>\n' +
-                            '<div class="qiPan" onclick="audience{{ i }}"></div>\n' +
-                            '<div class="Play2" onclick="joinRed{{ i }}"></div>'
+                            '<div class="zuozi">' +
+                            '<div class="tableq Play1 black' + i + '" key="Play1" value="' + i + '"></div>\n' +
+                            '<div class="tableq qiPan table' + i + '" key="qiPan" value="' + i + '"></div>\n' +
+                            '<div class="tableq Play2 red' + i + '" key="Play2" value="' + i + '"></div>\n' +
+                            item[i]['audience'] + '</div>'
                         )
+                        if (rec.table_list[i]['red'] === 1) {
+                            $('.red' + i).addClass('redPlayer')
+                        }
+                        if (rec.table_list[i]['black'] === 1) {
+                            $('.black' + i).addClass('blackPlayer')
+                        }
+                        if (rec.table_list[i]['start'] === 1) {
+                            $('.table' + i).addClass('startPlay')
+                        }
                     }
-
                 })
             }
 
@@ -139,14 +156,6 @@
             <div class="center_r fr">
                 <p class="xzm">班级：计应172，小组名：改了又改，学号：2017060502215、2017060502218、2017060502239，姓名：李俊杰、李燕威、张嘉骏</p>
                 <div class="center_r_w">
-                    {#                    {% load filter %}#}
-                    {#                    {% for i in 5|list %}#}
-                    {#                        <div class="zuozi">#}
-                    {#                            <div class="Play1" onclick="joinBlack{{ i }}"></div>#}
-                    {#                            <div class="qiPan" onclick="audience{{ i }}"></div>#}
-                    {#                            <div class="Play2" onclick="joinRed{{ i }}"></div>#}
-                    {#                        </div>#}
-                    {#                    {% endfor %}#}
                 </div>
             </div>
         </div>

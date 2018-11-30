@@ -47,3 +47,27 @@ class RealTime(View):
             if item['username'] in online_user:
                 online_list.append(item)
         return online_list
+
+    def getTableState(request, table):
+        table_list = []
+        for i in range(0, table):
+            table_list.append({
+                'red': mc.get('red_' + str(i)),
+                'black': mc.get('black_' + str(i)),
+                'start': mc.get('start_' + str(i)),
+                'audience': mc.get('audience_' + str(i)),
+            })
+        return table_list
+
+    def getInitMap(request):
+        map = [[15, 14, 13, 12, 11, 12, 13, 14, 15],
+               [0, 0, 0, 0, 0, 0, 0, 0, 0],
+               [0, 16, 0, 0, 0, 0, 0, 16, 0],
+               [17, 0, 17, 0, 17, 0, 17, 0, 17],
+               [0, 0, 0, 0, 0, 0, 0, 0, 0],
+               [0, 0, 0, 0, 0, 0, 0, 0, 0],
+               [7, 0, 7, 0, 7, 0, 7, 0, 7],
+               [0, 6, 0, 0, 0, 0, 0, 6, 0],
+               [0, 0, 0, 0, 0, 0, 0, 0, 0],
+               [5, 4, 3, 2, 1, 2, 3, 4, 5]]
+        return map

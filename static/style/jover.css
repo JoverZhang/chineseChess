@@ -1,0 +1,22 @@
+.redPlayer {
+    width: 45px;
+    height: 45px;
+    background-image: url("../images/qizi.png");
+    background-position: -20px -295px;
+    background-size: 415px 118px;
+}
+
+.blackPlayer {
+    width: 45px;
+    height: 45px;
+    background-image: url("../images/qizi.png");
+    background-position: -20px -243px;
+    background-size: 415px 118px;
+}
+
+.startPlay {
+    width: 100px;
+    height: 95px;
+    background-size: 100px 95px;
+    background-image: url("../images/qipan.png");
+}

@@ -35,39 +35,39 @@ function init() {
             map[i][j] = 0;
 
     //初始化棋子位置
-    map[0][0] = 15;
-    map[0][1] = 14;
-    map[0][2] = 13;
-    map[0][3] = 12;
-    map[0][4] = 11;
-    map[0][5] = 12;
-    map[0][6] = 13;
-    map[0][7] = 14;
-    map[0][8] = 15;
-    map[2][1] = 16;
-    map[2][7] = 16;
-    map[3][0] = 17;
-    map[3][2] = 17;
-    map[3][4] = 17;
-    map[3][6] = 17;
-    map[3][8] = 17;
-
-    map[9][0] = 5;
-    map[9][1] = 4;
-    map[9][2] = 3;
-    map[9][3] = 2;
-    map[9][4] = 1;
-    map[9][5] = 2;
-    map[9][6] = 3;
-    map[9][7] = 4;
-    map[9][8] = 5;
-    map[7][1] = 6;
-    map[7][7] = 6;
-    map[6][0] = 7;
-    map[6][2] = 7;
-    map[6][4] = 7;
-    map[6][6] = 7;
-    map[6][8] = 7;
+    // map[0][0] = 15;
+    // map[0][1] = 14;
+    // map[0][2] = 13;
+    // map[0][3] = 12;
+    // map[0][4] = 11;
+    // map[0][5] = 12;
+    // map[0][6] = 13;
+    // map[0][7] = 14;
+    // map[0][8] = 15;
+    // map[2][1] = 16;
+    // map[2][7] = 16;
+    // map[3][0] = 17;
+    // map[3][2] = 17;
+    // map[3][4] = 17;
+    // map[3][6] = 17;
+    // map[3][8] = 17;
+    //
+    // map[9][0] = 5;
+    // map[9][1] = 4;
+    // map[9][2] = 3;
+    // map[9][3] = 2;
+    // map[9][4] = 1;
+    // map[9][5] = 2;
+    // map[9][6] = 3;
+    // map[9][7] = 4;
+    // map[9][8] = 5;
+    // map[7][1] = 6;
+    // map[7][7] = 6;
+    // map[6][0] = 7;
+    // map[6][2] = 7;
+    // map[6][4] = 7;
+    // map[6][6] = 7;
+    // map[6][8] = 7;
     ///////////////
 
     //棋盘初始化
@@ -88,6 +88,7 @@ function rendering() {
             qipan[flag].className = Qizi[map[i][j]];
             flag += 1;
         }
+    console.log(map)
 }
 
 function getYX(num) {
@@ -121,13 +122,22 @@ function YXtoIndex(y, x) {
     return flag;
 }
 
-function initQiziOnclick() {
+function initQiziOnclick(num) {
     for (var i = 0, len = qizi.length; i < len; i++)
         //设置棋子onclick
-        if (getQiziType(i))
-            qizi[i].setAttribute('onclick', 'move(this)')
-        else
+        if (num === 2) {
+            if (getQiziType(i) < 10)
+                qizi[i].setAttribute('onclick', 'move(this)')
+            else
+                qizi[i].removeAttribute('onclick', 'move(this)')
+        } else if (num === 1) {
+            if (getQiziType(i) > 10)
+                qizi[i].setAttribute('onclick', 'move(this)')
+            else
+                qizi[i].removeAttribute('onclick', 'move(this)')
+        }else{
             qizi[i].removeAttribute('onclick', 'move(this)')
+        }
 }
 
 function removeQiziOnclick() {
@@ -142,9 +152,7 @@ function own(origin, target) {
 }
 
 
-
 function onload() {
-
-    init();
-    rendering();
+    // init();
+    // rendering();
 }
